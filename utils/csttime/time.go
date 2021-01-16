@@ -1,4 +1,4 @@
-// Package pcstime 时间工具包
+// Package csttime 时间工具包
 package csttime
 
 import (
