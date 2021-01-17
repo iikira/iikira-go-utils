@@ -5,7 +5,7 @@ package multipartreader
 import (
 	"errors"
 	"fmt"
-	rio2 "github.com/iikira/iikira-go-utils/requester/rio"
+	"github.com/iikira/iikira-go-utils/requester/rio"
 	"io"
 	"mime/multipart"
 	"strings"
@@ -32,12 +32,12 @@ type (
 
 	part struct {
 		form      string
-		readerlen rio2.ReaderLen
+		readerlen rio.ReaderLen
 	}
 
 	part64 struct {
 		form        string
-		readerlen64 rio2.ReaderLen64
+		readerlen64 rio.ReaderLen64
 	}
 )
 
@@ -56,7 +56,7 @@ func NewMultipartReader() (mr *MultipartReader) {
 }
 
 // AddFormFeild 增加 form 表单
-func (mr *MultipartReader) AddFormFeild(fieldname string, readerlen rio2.ReaderLen) {
+func (mr *MultipartReader) AddFormFeild(fieldname string, readerlen rio.ReaderLen) {
 	if readerlen == nil {
 		return
 	}
@@ -70,7 +70,7 @@ func (mr *MultipartReader) AddFormFeild(fieldname string, readerlen rio2.ReaderL
 }
 
 // AddFormFile 增加 form 文件表单
-func (mr *MultipartReader) AddFormFile(fieldname, filename string, readerlen64 rio2.ReaderLen64) {
+func (mr *MultipartReader) AddFormFile(fieldname, filename string, readerlen64 rio.ReaderLen64) {
 	if readerlen64 == nil {
 		return
 	}

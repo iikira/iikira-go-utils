@@ -3,8 +3,8 @@ package checksum
 
 import (
 	"crypto/md5"
-	cachepool2 "github.com/iikira/iikira-go-utils/utils/cachepool"
-	converter2 "github.com/iikira/iikira-go-utils/utils/converter"
+	"github.com/iikira/iikira-go-utils/utils/cachepool"
+	"github.com/iikira/iikira-go-utils/utils/converter"
 	"hash/crc32"
 	"io"
 	"os"
@@ -12,7 +12,7 @@ import (
 
 const (
 	// DefaultBufSize 默认的bufSize
-	DefaultBufSize = int(256 * converter2.KB)
+	DefaultBufSize = int(256 * converter.KB)
 )
 
 const (
@@ -97,7 +97,7 @@ func (lfc *LocalFileChecksum) Close() error {
 
 func (lfc *LocalFileChecksum) initBuf() {
 	if lfc.buf == nil {
-		lfc.buf = cachepool2.RawMallocByteSlice(lfc.bufSize)
+		lfc.buf = cachepool.RawMallocByteSlice(lfc.bufSize)
 	}
 }
 

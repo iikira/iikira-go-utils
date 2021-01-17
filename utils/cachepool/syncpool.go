@@ -1,13 +1,13 @@
 package cachepool
 
 import (
-	converter2 "github.com/iikira/iikira-go-utils/utils/converter"
+	"github.com/iikira/iikira-go-utils/utils/converter"
 	"runtime"
 	"sync"
 )
 
 var (
-	syncPoolSize     = int(64 * converter2.KB)
+	syncPoolSize     = int(64 * converter.KB)
 	syncPoolFirstNew = false
 	SyncPool         = sync.Pool{
 		New: func() interface{} {

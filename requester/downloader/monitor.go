@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/iikira/iikira-go-utils/pcsverbose"
-	transfer2 "github.com/iikira/iikira-go-utils/requester/transfer"
+	"github.com/iikira/iikira-go-utils/requester/transfer"
 	"sort"
 	"time"
 )
@@ -18,7 +18,7 @@ type (
 	//Monitor 线程监控器
 	Monitor struct {
 		workers         WorkerList
-		status          *transfer2.DownloadStatus
+		status          *transfer.DownloadStatus
 		instanceState   *InstanceState
 		completed       chan struct{}
 		err             error
@@ -44,7 +44,7 @@ func (mt *Monitor) lazyInit() {
 		mt.workers = make(WorkerList, 0, 100)
 	}
 	if mt.status == nil {
-		mt.status = transfer2.NewDownloadStatus()
+		mt.status = transfer.NewDownloadStatus()
 	}
 	if mt.resetController == nil {
 		mt.resetController = NewResetController(80)
@@ -70,7 +70,7 @@ func (mt *Monitor) SetWorkers(workers WorkerList) {
 }
 
 //SetStatus 设置DownloadStatus
-func (mt *Monitor) SetStatus(status *transfer2.DownloadStatus) {
+func (mt *Monitor) SetStatus(status *transfer.DownloadStatus) {
 	mt.status = status
 }
 
@@ -80,7 +80,7 @@ func (mt *Monitor) SetInstanceState(instanceState *InstanceState) {
 }
 
 //Status 返回DownloadStatus
-func (mt *Monitor) Status() *transfer2.DownloadStatus {
+func (mt *Monitor) Status() *transfer.DownloadStatus {
 	return mt.status
 }
 
@@ -109,8 +109,8 @@ func (mt *Monitor) GetAvailableWorker() *Worker {
 }
 
 //GetAllWorkersRange 获取所有worker的范围
-func (mt *Monitor) GetAllWorkersRange() transfer2.RangeList {
-	allWorkerRanges := make(transfer2.RangeList, 0, len(mt.workers))
+func (mt *Monitor) GetAllWorkersRange() transfer.RangeList {
+	allWorkerRanges := make(transfer.RangeList, 0, len(mt.workers))
 	for _, worker := range mt.workers {
 		allWorkerRanges = append(allWorkerRanges, worker.GetRange())
 	}
@@ -379,7 +379,7 @@ func (mt *Monitor) Execute(cancelCtx context.Context) {
 
 			// 保存断点信息到文件
 			if mt.instanceState != nil {
-				mt.instanceState.Put(&transfer2.DownloadInstanceInfo{
+				mt.instanceState.Put(&transfer.DownloadInstanceInfo{
 					DownloadStatus: mt.status,
 					Ranges:         mt.GetAllWorkersRange(),
 				})

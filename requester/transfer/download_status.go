@@ -1,7 +1,7 @@
 package transfer
 
 import (
-	speeds2 "github.com/iikira/iikira-go-utils/requester/rio/speeds"
+	"github.com/iikira/iikira-go-utils/requester/rio/speeds"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -24,11 +24,11 @@ type (
 		speedsDownloaded int64          // 用于统计速度的downloaded
 		maxSpeeds        int64          // 最大下载速度
 		tmpSpeeds        int64          // 缓存的速度
-		speedsStat       speeds2.Speeds // 速度统计 (注意对齐)
+		speedsStat       speeds.Speeds // 速度统计 (注意对齐)
 
 		startTime time.Time // 开始下载的时间
 
-		rateLimit *speeds2.RateLimit // 限速控制
+		rateLimit *speeds.RateLimit // 限速控制
 
 		gen *RangeListGen // Range生成状态
 		mu  sync.Mutex
@@ -43,7 +43,7 @@ func NewDownloadStatus() *DownloadStatus {
 }
 
 // SetRateLimit 设置限速
-func (ds *DownloadStatus) SetRateLimit(rl *speeds2.RateLimit) {
+func (ds *DownloadStatus) SetRateLimit(rl *speeds.RateLimit) {
 	ds.rateLimit = rl
 }
 

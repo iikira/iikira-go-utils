@@ -3,8 +3,8 @@ package uploader
 import (
 	"context"
 	"github.com/iikira/iikira-go-utils/requester"
-	rio2 "github.com/iikira/iikira-go-utils/requester/rio"
-	speeds2 "github.com/iikira/iikira-go-utils/requester/rio/speeds"
+	"github.com/iikira/iikira-go-utils/requester/rio"
+	"github.com/iikira/iikira-go-utils/requester/rio/speeds"
 	"github.com/iikira/iikira-go-utils/utils"
 	"github.com/iikira/iikira-go-utils/utils/converter"
 	"sync"
@@ -15,7 +15,7 @@ type (
 	// MultiUpload 支持多线程的上传, 可用于断点续传
 	MultiUpload interface {
 		Precreate() (perr error)
-		TmpFile(ctx context.Context, partseq int, partOffset int64, readerlen64 rio2.ReaderLen64) (checksum string, terr error)
+		TmpFile(ctx context.Context, partseq int, partOffset int64, readerlen64 rio.ReaderLen64) (checksum string, terr error)
 		CreateSuperFile(checksumList ...string) (cerr error)
 	}
 
@@ -31,11 +31,11 @@ type (
 		instanceState *InstanceState
 
 		multiUpload MultiUpload        // 上传体接口
-		file        rio2.ReaderAtLen64 // 上传
+		file        rio.ReaderAtLen64 // 上传
 		config      *MultiUploaderConfig
 		workers     workerList
-		speedsStat  *speeds2.Speeds
-		rateLimit   *speeds2.RateLimit
+		speedsStat  *speeds.Speeds
+		rateLimit   *speeds.RateLimit
 
 		executeTime             time.Time
 		finished                chan struct{}
@@ -53,7 +53,7 @@ type (
 )
 
 // NewMultiUploader 初始化上传
-func NewMultiUploader(multiUpload MultiUpload, file rio2.ReaderAtLen64, config *MultiUploaderConfig) *MultiUploader {
+func NewMultiUploader(multiUpload MultiUpload, file rio.ReaderAtLen64, config *MultiUploaderConfig) *MultiUploader {
 	return &MultiUploader{
 		multiUpload: multiUpload,
 		file:        file,
@@ -86,7 +86,7 @@ func (muer *MultiUploader) lazyInit() {
 		muer.config.BlockSize = 1 * converter.GB
 	}
 	if muer.speedsStat == nil {
-		muer.speedsStat = &speeds2.Speeds{}
+		muer.speedsStat = &speeds.Speeds{}
 	}
 }
 
@@ -106,7 +106,7 @@ func (muer *MultiUploader) Execute() {
 
 	// 初始化限速
 	if muer.config.MaxRate > 0 {
-		muer.rateLimit = speeds2.NewRateLimit(muer.config.MaxRate)
+		muer.rateLimit = speeds.NewRateLimit(muer.config.MaxRate)
 		defer muer.rateLimit.Stop()
 	}
 

@@ -2,7 +2,7 @@ package taskframework
 
 import (
 	"github.com/GeertJohan/go.incremental"
-	waitgroup2 "github.com/iikira/iikira-go-utils/utils/waitgroup"
+	"github.com/iikira/iikira-go-utils/utils/waitgroup"
 	"github.com/oleiade/lane"
 	"strconv"
 	"time"
@@ -77,7 +77,7 @@ func (te *TaskExecutor) Execute() {
 	te.lazyInit()
 
 	for {
-		wg := waitgroup2.NewWaitGroup(te.parallel)
+		wg := waitgroup.NewWaitGroup(te.parallel)
 		for {
 			e := te.deque.Shift()
 			if e == nil { // 任务为空

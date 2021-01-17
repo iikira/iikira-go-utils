@@ -4,7 +4,7 @@ package uploader
 import (
 	"github.com/iikira/iikira-go-utils/pcsverbose"
 	"github.com/iikira/iikira-go-utils/requester"
-	rio2 "github.com/iikira/iikira-go-utils/requester/rio"
+	"github.com/iikira/iikira-go-utils/requester/rio"
 	"github.com/iikira/iikira-go-utils/utils"
 	"github.com/iikira/iikira-go-utils/utils/converter"
 	"net/http"
@@ -43,7 +43,7 @@ var (
 )
 
 // NewUploader 返回 uploader 对象, url: 上传地址, readerlen64: 实现 rio.ReaderLen64 接口的对象, 例如文件
-func NewUploader(url string, readerlen64 rio2.ReaderLen64) (uploader *Uploader) {
+func NewUploader(url string, readerlen64 rio.ReaderLen64) (uploader *Uploader) {
 	uploader = &Uploader{
 		url:      url,
 		readed64: NewReaded64(readerlen64),

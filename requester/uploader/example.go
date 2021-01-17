@@ -2,12 +2,12 @@ package uploader
 
 import (
 	"fmt"
-	rio2 "github.com/iikira/iikira-go-utils/requester/rio"
+	"github.com/iikira/iikira-go-utils/requester/rio"
 	"github.com/iikira/iikira-go-utils/utils/converter"
 )
 
 // DoUpload 执行上传
-func DoUpload(uploadURL string, readerlen64 rio2.ReaderLen64, checkFunc CheckFunc) {
+func DoUpload(uploadURL string, readerlen64 rio.ReaderLen64, checkFunc CheckFunc) {
 	u := NewUploader(uploadURL, readerlen64)
 	u.SetCheckFunc(checkFunc)
 

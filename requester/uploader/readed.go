@@ -1,25 +1,25 @@
 package uploader
 
 import (
-	rio2 "github.com/iikira/iikira-go-utils/requester/rio"
+	"github.com/iikira/iikira-go-utils/requester/rio"
 	"sync/atomic"
 )
 
 type (
 	// Readed64 增加获取已读取数据量, 用于统计速度
 	Readed64 interface {
-		rio2.ReaderLen64
+		rio.ReaderLen64
 		Readed() int64
 	}
 
 	readed64 struct {
 		readed int64
-		rio2.ReaderLen64
+		rio.ReaderLen64
 	}
 )
 
 // NewReaded64 实现Readed64接口
-func NewReaded64(rl rio2.ReaderLen64) Readed64 {
+func NewReaded64(rl rio.ReaderLen64) Readed64 {
 	return &readed64{
 		readed:      0,
 		ReaderLen64: rl,

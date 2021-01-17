@@ -2,7 +2,7 @@ package bdcrypto_test
 
 import (
 	"fmt"
-	"github.com/iikira/Baidu-Login/bdcrypto"
+	"github.com/iikira/iikira-go-utils/utils/bdcrypto"
 	"testing"
 )
 

@@ -3,8 +3,8 @@ package uploader
 import (
 	"bufio"
 	"fmt"
-	speeds2 "github.com/iikira/iikira-go-utils/requester/rio/speeds"
-	transfer2 "github.com/iikira/iikira-go-utils/requester/transfer"
+	"github.com/iikira/iikira-go-utils/requester/rio/speeds"
+	"github.com/iikira/iikira-go-utils/requester/transfer"
 	"io"
 	"os"
 	"sync"
@@ -15,16 +15,16 @@ type (
 	SplitUnit interface {
 		Readed64
 		io.Seeker
-		Range() transfer2.Range
+		Range() transfer.Range
 		Left() int64
 	}
 
 	fileBlock struct {
-		readRange     transfer2.Range
+		readRange     transfer.Range
 		readed        int64
 		readerAt      io.ReaderAt
-		speedsStatRef *speeds2.Speeds
-		rateLimit     *speeds2.RateLimit
+		speedsStatRef *speeds.Speeds
+		rateLimit     *speeds.RateLimit
 		mu            sync.Mutex
 	}
 
@@ -36,7 +36,7 @@ type (
 
 // SplitBlock 文件分块
 func SplitBlock(fileSize, blockSize int64) (blockList []*BlockState) {
-	gen := transfer2.NewRangeListGenBlockSize(fileSize, 0, blockSize)
+	gen := transfer.NewRangeListGenBlockSize(fileSize, 0, blockSize)
 	rangeCount := gen.RangeCount()
 	blockList = make([]*BlockState, 0, rangeCount)
 	for i := 0; i < rangeCount; i++ {
@@ -50,7 +50,7 @@ func SplitBlock(fileSize, blockSize int64) (blockList []*BlockState) {
 }
 
 // NewBufioSplitUnit io.ReaderAt实现SplitUnit接口, 有Buffer支持
-func NewBufioSplitUnit(readerAt io.ReaderAt, readRange transfer2.Range, speedsStat *speeds2.Speeds, rateLimit *speeds2.RateLimit) SplitUnit {
+func NewBufioSplitUnit(readerAt io.ReaderAt, readRange transfer.Range, speedsStat *speeds.Speeds, rateLimit *speeds.RateLimit) SplitUnit {
 	su := &fileBlock{
 		readerAt:      readerAt,
 		readRange:     readRange,
@@ -122,7 +122,7 @@ func (fb *fileBlock) Left() int64 {
 	return fb.readRange.End - fb.readRange.Begin - fb.readed
 }
 
-func (fb *fileBlock) Range() transfer2.Range {
+func (fb *fileBlock) Range() transfer.Range {
 	return fb.readRange
 }
 
