@@ -3,6 +3,7 @@
 package multipartreader
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"github.com/iikira/iikira-go-utils/requester/rio"
@@ -55,8 +56,8 @@ func NewMultipartReader() (mr *MultipartReader) {
 	return
 }
 
-// AddFormFeild 增加 form 表单
-func (mr *MultipartReader) AddFormFeild(fieldname string, readerlen rio.ReaderLen) {
+// AddFormField 增加 form 表单
+func (mr *MultipartReader) AddFormField(fieldname string, readerlen rio.ReaderLen) {
 	if readerlen == nil {
 		return
 	}
@@ -67,6 +68,14 @@ func (mr *MultipartReader) AddFormFeild(fieldname string, readerlen rio.ReaderLe
 	}
 	atomic.AddInt64(&mr.length, int64(len(mpart.form)+mpart.readerlen.Len()))
 	mr.parts = append(mr.parts, mpart)
+}
+
+func (mr *MultipartReader) AddFormFieldBytes(fieldname string, b []byte) {
+	mr.AddFormField(fieldname, bytes.NewReader(b))
+}
+
+func (mr *MultipartReader) AddFormFieldString(fieldname string, s string) {
+	mr.AddFormField(fieldname, strings.NewReader(s))
 }
 
 // AddFormFile 增加 form 文件表单
