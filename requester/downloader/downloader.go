@@ -277,7 +277,12 @@ func (der *Downloader) Execute() error {
 	)
 	if der.firstInfo == nil {
 		// 检测
-		contentLength, resp, err := der.durlCheckFunc(der.client, der.durl)
+		var (
+			// 这个声明不得去掉, 否则会覆盖resp
+			contentLength int64
+			err error
+		)
+		contentLength, resp, err = der.durlCheckFunc(der.client, der.durl)
 		if err != nil {
 			return err
 		}
