@@ -341,6 +341,10 @@ func (der *Downloader) Execute() error {
 	if !isInstance {
 		bii = &transfer.DownloadInstanceInfo{}
 	}
+	if isInstance {
+		// 使用断点续传时，不启用firstResp
+		resp.Body.Close()
+	}
 
 	if bii.DownloadStatus != nil {
 		// 使用断点信息的状态
