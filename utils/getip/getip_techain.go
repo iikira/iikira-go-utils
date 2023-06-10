@@ -26,5 +26,5 @@ func IPInfoFromTechainBaiduByClient(c *requester.HTTPClient) (ipAddr string, err
 // IPInfoFromTechainBaidu 从 techain.baidu.com 获取ip
 func IPInfoFromTechainBaidu() (ipAddr string, err error) {
 	c := requester.NewHTTPClient()
-	return IPInfoFromNeteaseByClient(c)
+	return IPInfoFromTechainBaiduByClient(c)
 }
